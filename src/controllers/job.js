@@ -392,8 +392,6 @@ exports.getJobByFilters = async (req, res) => {
   let aggregate_options = [];
   const limit_range = 24;
 
-  console.log(req.query);
-
   //PAGINATION
   let page = parseInt(req.query.page) || 1;
   let limit = parseInt(req.query.limit) || limit_range;

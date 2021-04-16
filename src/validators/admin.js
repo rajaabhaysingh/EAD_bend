@@ -2,6 +2,16 @@ const { check, validationResult } = require("express-validator");
 
 exports.validateAdminSignupRequest = [
   check("firstName").notEmpty().withMessage("Firstname cannot be empty."),
+  check("middleName")
+    .notEmpty()
+    .withMessage(
+      "Middle name cannot be empty. If you don't have middle name, type N/A."
+    ),
+  check("lastName")
+    .notEmpty()
+    .withMessage(
+      "Lastname cannot be empty. If you don't have last name, type N/A."
+    ),
   check("email").isEmail().withMessage("Invalid email address."),
   check("password")
     .isLength({ min: 8 })

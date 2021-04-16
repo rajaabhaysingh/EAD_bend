@@ -4,21 +4,11 @@ const { nanoid } = require("nanoid");
 const bcrypt = require("bcrypt");
 const fetch = require("isomorphic-fetch");
 const env = require("dotenv");
-const nodemailer = require("nodemailer");
-const sgTransport = require("nodemailer-sendgrid-transport");
+const sgMail = require("@sendgrid/mail");
 const moment = require("moment");
 
 env.config();
-
-var mailerOptions = {
-  service: "SendGrid",
-  auth: {
-    api_user: process.env.SENDGRID_API_USER,
-    api_key: process.env.SENDGRID_API_KEY,
-  },
-};
-
-var clientMailer = nodemailer.createTransport(sgTransport(mailerOptions));
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // signup controller
 exports.signup = async (req, res) => {
@@ -112,7 +102,7 @@ exports.signup = async (req, res) => {
                     // send OTP for verification
 
                     const email = {
-                      from: "noreply@wilswork.ml",
+                      from: process.env.SENDGRID_API_USER,
                       to: createdUser.email,
                       subject: "OTP for registration, Wilswork",
                       html:
@@ -125,34 +115,23 @@ exports.signup = async (req, res) => {
                         "Team wilswork<br>www.wilswork.ml",
                     };
 
-                    await clientMailer.sendMail(email, (emailError, info) => {
-                      if (emailError) {
-                        console.log("Email error:", emailError);
-                        return res.status(400).json({
-                          error:
-                            "Error sending verification email. Contact site administrators if this persists.",
-                        });
-                      }
-
-                      if (info) {
-                        // console.log("Message sent: %s", info.messageId);
-                        // console.log(
-                        //   "Preview URL: %s",
-                        //   nodemailer.getTestMessageUrl(info)
-                        // );
-
+                    // send email
+                    sgMail
+                      .send(email)
+                      .then(() => {
                         return res.status(201).json({
                           data: {
                             email: createdUser.email,
                             message: "Registration successful.",
                           },
                         });
-                      } else {
+                      })
+                      .catch((e) => {
                         return res.status(400).json({
-                          error: "Some unexpected error occured.",
+                          error: e,
                         });
-                      }
-                    });
+                      });
+                    // ---
                   } else {
                     return res.status(400).json({
                       error:
@@ -277,7 +256,7 @@ exports.regenerateEmailOTP = async (req, res) => {
 
     if (updatedUser) {
       const email = {
-        from: "noreply@wilswork.ml",
+        from: process.env.SENDGRID_API_USER,
         to: updatedUser.email,
         subject: "OTP for registration, Wilswork",
         html:
@@ -290,33 +269,22 @@ exports.regenerateEmailOTP = async (req, res) => {
           "Team wilswork<br>www.wilswork.ml",
       };
 
-      await clientMailer.sendMail(email, (emailError, info) => {
-        if (emailError) {
-          return res.status(400).json({
-            error: emailError,
-          });
-        }
-
-        if (info) {
-          // console.log("Message sent: %s", info.messageId);
-          // console.log(
-          //   "Preview URL: %s",
-          //   nodemailer.getTestMessageUrl(info)
-          // );
-
+      // send email
+      sgMail
+        .send(email)
+        .then(() => {
           return res.status(200).json({
             data: {
               email: updatedUser.email,
               message: "OTP sent successfully.",
             },
           });
-        } else {
+        })
+        .catch((e) => {
           return res.status(400).json({
-            error:
-              "Some unexpected error occured while sending OTP. Please try again or contact us if issue persists.",
+            error: e,
           });
-        }
-      });
+        });
     } else {
       return res.status(400).json({
         error:
@@ -446,7 +414,7 @@ exports.sendResetPasswordLink = async (req, res) => {
       });
 
       const email = {
-        from: "noreply@wilswork.ml",
+        from: process.env.SENDGRID_API_USER,
         to: userFound.email,
         subject: "Password reset link, Wilswork",
         html:
@@ -457,30 +425,19 @@ exports.sendResetPasswordLink = async (req, res) => {
           "Team wilswork<br>www.wilswork.ml",
       };
 
-      await clientMailer.sendMail(email, (emailError, info) => {
-        if (emailError) {
-          return res.status(400).json({
-            error: emailError,
-          });
-        }
-
-        if (info) {
-          // console.log("Message sent: %s", info.messageId);
-          // console.log(
-          //   "Preview URL: %s",
-          //   nodemailer.getTestMessageUrl(info)
-          // );
-
+      // send email
+      sgMail
+        .send(email)
+        .then(() => {
           return res.status(200).json({
             data: "Password reset link sent successfully.",
           });
-        } else {
+        })
+        .catch((e) => {
           return res.status(400).json({
-            error:
-              "Some unexpected error occured while sending password reset link. Please try again or contact us if issue persists.",
+            error: e,
           });
-        }
-      });
+        });
     } else {
       return res.status(404).json({
         error: "User not found.",

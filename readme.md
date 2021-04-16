@@ -6,6 +6,7 @@
 
 ### How to run ?
 
+0. Make sure you have .env file with right details...
 1. Clone this repository
 2. Inside root folder > `npm install`
 3. After successful installation, > OPEN POSTMAN @ `localhost:8000`
@@ -18,37 +19,29 @@
 1. `http://localhost:8000/auth/signup` (accepts `form-data` only)
 2. `http://localhost:8000/auth/login`
 3. `http://localhost:8000/auth/logout`
-
 4. `http://localhost:8000/admin/signup` (accepts `form-data` only)
 5. `http://localhost:8000/admin/login`
 6. `http://localhost:8000/admin/logout`
-
 7. `http://localhost:8000/category/create` (accepts `form-data` only)
 8. `http://localhost:8000/category/get`
 9. `http://localhost:8000/category/update` (accepts `form-data` only)
 10. `http://localhost:8000/category/delete`
-
 11. `http://localhost:8000/job/create` (accepts `form-data` only)
 12. `http://localhost:8000/job/update` (accepts `form-data` only)
 13. `http://localhost:8000/job/get-all-jobs`
 14. `http://localhost:8000/job/get-job-by-id/:jobid`
-
 15. `http://localhost:8000/review/add-review`
 16. `http://localhost:8000/review//get-all-rev-by-id/:jobId`
-
 17. `http://localhost:8000/application/create` (accepts `form-data` only)
 18. `http://localhost:8000/application/get`
 19. `http://localhost:8000/application/update` (accepts `form-data` only)
 20. `http://localhost:8000/application/delete`
-
 21. `http://localhost:8000/banner/add` (accepts `form-data` only)
 22. `http://localhost:8000/banner/get`
 23. `http://localhost:8000/banner/update` (accepts `form-data` only)
 24. `http://localhost:8000/banner/delete`
-
 25. `http://localhost:8000/payment/create`
 26. `http://localhost:8000/payment/pay_now` ( webhook )
-
 27. `http://localhost:8000/address/create`
 28. `http://localhost:8000/address/get`
 29. `http://localhost:8000/address/update`
@@ -61,35 +54,13 @@
 33. `http://localhost:8000/auth/verify-reset-password`
 34. `http://localhost:8000/application/change-status`
 35. `http://localhost:8000/application/get-by-id/:appId`
-36. `http://localhost:8000/application/get-jobs-by-filter`
+36. `http://localhost:8000/job/get-jobs-by-filter`
 
 ---
 
 ### Contributors
 
-1. Abhijit P Patil (S20180010001)
-2. Parikshit Singh (S20180010128)
-3. Atharva R Dhabekar (S20180010050)
-4. T Prem Ratan (S20180010178)
-5. Raja Abhay Singh (S20180010143)
+1. Raja Abhay Singh (S20180010143)
 
 ---
 
-### CURRENT WORK DIVISION
-
-APIs distributed...
-
-1. Category API: Raja `[Completed]`
-2. Jobs API: Abhijit `[Completed]`
-3. Events API: Parikshit `[Unknown]`
-4. Ads & Banners API: Atharva `[Completed]`
-5. Application API: Prem `[Completed]`
-6. Address API: Raja `[Completed]`
-7. Payments API: Raja `[Completed]`
-8. Users and Admin API: Raja `[Completed]`
-
-`Deadline for [GET/POST] : Saturday (6th Feb)`
-
-`Complete CRUD implementation till: Wednesday (10th Feb)`
-
-`NOTE: Final extension of deadline: 24th Feb 2020`

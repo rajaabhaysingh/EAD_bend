@@ -120,3 +120,4 @@ src/profile_pic/
 src/uploads/
 
 ngrok
+.env

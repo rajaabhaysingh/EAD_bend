@@ -54,7 +54,7 @@
 33. `http://localhost:8000/auth/verify-reset-password`
 34. `http://localhost:8000/application/change-status`
 35. `http://localhost:8000/application/get-by-id/:appId`
-36. `http://localhost:8000/application/get-jobs-by-filter`
+36. `http://localhost:8000/job/get-jobs-by-filter`
 
 ---
 

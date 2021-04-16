@@ -6,6 +6,8 @@
 
 ### How to run ?
 
+0. Make sure you have .env file right details
+
 1. Clone this repository
 2. Inside root folder > `npm install`
 3. After successful installation, > OPEN POSTMAN @ `localhost:8000`
@@ -67,29 +69,7 @@
 
 ### Contributors
 
-1. Abhijit P Patil (S20180010001)
-2. Parikshit Singh (S20180010128)
-3. Atharva R Dhabekar (S20180010050)
-4. T Prem Ratan (S20180010178)
-5. Raja Abhay Singh (S20180010143)
+1. Raja Abhay Singh (S20180010143)
 
 ---
 
-### CURRENT WORK DIVISION
-
-APIs distributed...
-
-1. Category API: Raja `[Completed]`
-2. Jobs API: Abhijit `[Completed]`
-3. Events API: Parikshit `[Unknown]`
-4. Ads & Banners API: Atharva `[Completed]`
-5. Application API: Prem `[Completed]`
-6. Address API: Raja `[Completed]`
-7. Payments API: Raja `[Completed]`
-8. Users and Admin API: Raja `[Completed]`
-
-`Deadline for [GET/POST] : Saturday (6th Feb)`
-
-`Complete CRUD implementation till: Wednesday (10th Feb)`
-
-`NOTE: Final extension of deadline: 24th Feb 2020`

@@ -6,12 +6,10 @@ exports.validateAdminSignupRequest = [
   check("password")
     .isLength({ min: 8 })
     .withMessage("Password must be atleast 8 characters long."),
-  check("passwordConfirm")
-    .isLength({ min: 8 })
-    .withMessage("Confirm password must be atleast 8 characters long."),
   check("phone")
     .isMobilePhone("en-IN")
     .withMessage("Invalid Phone number provided."),
+  check("secret").notEmpty().withMessage("Signup secret is required."),
 ];
 
 exports.validateEmailId = [

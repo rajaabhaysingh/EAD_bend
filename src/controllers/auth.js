@@ -130,7 +130,8 @@ exports.signup = async (req, res) => {
                       (emailError, info) => {
                         if (emailError) {
                           return res.status(400).json({
-                            error: emailError,
+                            error:
+                              "Error sending verification email. Contact site administrators if this persists.",
                           });
                         }
 

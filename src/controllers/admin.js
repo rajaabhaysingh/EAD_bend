@@ -19,55 +19,55 @@ exports.signup = async (req, res) => {
       return res.status(400).json({
         error: `${req.body.email} is already registered.`,
       });
-    }
-
-    // --- else continue creating Admin ---
-    // destructure the request data first
-    const {
-      firstName,
-      middleName,
-      lastName,
-      email,
-      password,
-      secret,
-    } = req.body;
-
-    if (secret === process.env.ADMIN_SIGNUP_SECRET) {
-      const password_hash = await bcrypt.hash(password, 10);
-
-      const ADMIN = new Admin({
+    } else {
+      // --- else continue creating Admin ---
+      // destructure the request data first
+      const {
         firstName,
         middleName,
         lastName,
         email,
-        password_hash,
-        username: nanoid(),
-        role: "admin",
-        profilePicture: req.file ? "/private/" + req.file.filename : "",
-      });
+        password,
+        secret,
+      } = req.body;
 
-      ADMIN.save((err, data) => {
-        if (err) {
-          return res.status(400).json({
-            error: err,
-          });
-        }
+      if (secret === process.env.ADMIN_SIGNUP_SECRET) {
+        const password_hash = await bcrypt.hash(password, 10);
 
-        if (data) {
-          return res.status(201).json({
-            data: "Admin created successfully.",
-          });
-        } else {
-          return res.status(400).json({
-            error:
-              "Couldn't register new user. If problem persistes, please contact developer.",
-          });
-        }
-      });
-    } else {
-      return res.status(400).json({
-        error: `Invalid secret token provided.`,
-      });
+        const ADMIN = new Admin({
+          firstName,
+          middleName,
+          lastName,
+          email,
+          password_hash,
+          username: nanoid(),
+          role: "admin",
+          profilePicture: req.file ? "/private/" + req.file.filename : "",
+        });
+
+        await ADMIN.save((err, data) => {
+          if (err) {
+            return res.status(400).json({
+              error: err,
+            });
+          }
+
+          if (data) {
+            return res.status(201).json({
+              data: "Admin created successfully.",
+            });
+          } else {
+            return res.status(400).json({
+              error:
+                "Couldn't register new user. If problem persistes, please contact developer.",
+            });
+          }
+        });
+      } else {
+        return res.status(400).json({
+          error: `Invalid secret token provided.`,
+        });
+      }
     }
   });
 };

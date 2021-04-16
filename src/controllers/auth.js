@@ -5,9 +5,20 @@ const bcrypt = require("bcrypt");
 const fetch = require("isomorphic-fetch");
 const env = require("dotenv");
 const nodemailer = require("nodemailer");
+const sgTransport = require("nodemailer-sendgrid-transport");
 const moment = require("moment");
 
 env.config();
+
+var mailerOptions = {
+  service: "SendGrid",
+  auth: {
+    api_user: process.env.SENDGRID_API_USER,
+    api_key: process.env.SENDGRID_API_KEY,
+  },
+};
+
+var clientMailer = nodemailer.createTransport(sgTransport(mailerOptions));
 
 // signup controller
 exports.signup = async (req, res) => {
@@ -98,21 +109,10 @@ exports.signup = async (req, res) => {
                   }
 
                   if (createdUser) {
-                    // send OTP for vefification
-                    let transporter = nodemailer.createTransport({
-                      host: process.env.SMTP_EMAIL_HOST,
-                      port: process.env.SMTP_EMAIL_PORT,
-                      secure: false,
-                      service: "Gmail",
+                    // send OTP for verification
 
-                      auth: {
-                        user: process.env.SMTP_EMAIL_ID,
-                        pass: process.env.SMTP_EMAIL_PWD,
-                      },
-                    });
-
-                    var mailOptions = {
-                      from: process.env.SMTP_FROM_EMAIL,
+                    const email = {
+                      from: "noreply@wilswork.ml",
                       to: createdUser.email,
                       subject: "OTP for registration, Wilswork",
                       html:
@@ -125,37 +125,34 @@ exports.signup = async (req, res) => {
                         "Team wilswork<br>www.wilswork.ml",
                     };
 
-                    await transporter.sendMail(
-                      mailOptions,
-                      (emailError, info) => {
-                        if (emailError) {
-                          console.log("Email error:", emailError);
-                          return res.status(400).json({
-                            error:
-                              "Error sending verification email. Contact site administrators if this persists.",
-                          });
-                        }
-
-                        if (info) {
-                          // console.log("Message sent: %s", info.messageId);
-                          // console.log(
-                          //   "Preview URL: %s",
-                          //   nodemailer.getTestMessageUrl(info)
-                          // );
-
-                          return res.status(201).json({
-                            data: {
-                              email: createdUser.email,
-                              message: "Registration successful.",
-                            },
-                          });
-                        } else {
-                          return res.status(400).json({
-                            error: "Some unexpected error occured.",
-                          });
-                        }
+                    await clientMailer.sendMail(email, (emailError, info) => {
+                      if (emailError) {
+                        console.log("Email error:", emailError);
+                        return res.status(400).json({
+                          error:
+                            "Error sending verification email. Contact site administrators if this persists.",
+                        });
                       }
-                    );
+
+                      if (info) {
+                        // console.log("Message sent: %s", info.messageId);
+                        // console.log(
+                        //   "Preview URL: %s",
+                        //   nodemailer.getTestMessageUrl(info)
+                        // );
+
+                        return res.status(201).json({
+                          data: {
+                            email: createdUser.email,
+                            message: "Registration successful.",
+                          },
+                        });
+                      } else {
+                        return res.status(400).json({
+                          error: "Some unexpected error occured.",
+                        });
+                      }
+                    });
                   } else {
                     return res.status(400).json({
                       error:
@@ -279,22 +276,10 @@ exports.regenerateEmailOTP = async (req, res) => {
     }
 
     if (updatedUser) {
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        service: "Gmail",
-
-        auth: {
-          user: process.env.SMTP_EMAIL_ID,
-          pass: process.env.SMTP_EMAIL_PWD,
-        },
-      });
-
-      const mailOptions = {
-        from: process.env.SMTP_FROM_EMAIL,
+      const email = {
+        from: "noreply@wilswork.ml",
         to: updatedUser.email,
-        subject: "OTP for account verification, Wilswork",
+        subject: "OTP for registration, Wilswork",
         html:
           `Hello ${updatedUser.firstName},<br><br>` +
           "Your OTP for account verification is: <br>" +
@@ -305,7 +290,7 @@ exports.regenerateEmailOTP = async (req, res) => {
           "Team wilswork<br>www.wilswork.ml",
       };
 
-      await transporter.sendMail(mailOptions, (emailError, info) => {
+      await clientMailer.sendMail(email, (emailError, info) => {
         if (emailError) {
           return res.status(400).json({
             error: emailError,
@@ -460,20 +445,8 @@ exports.sendResetPasswordLink = async (req, res) => {
         expiresIn: 600, // 10 minutes
       });
 
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        service: "Gmail",
-
-        auth: {
-          user: process.env.SMTP_EMAIL_ID,
-          pass: process.env.SMTP_EMAIL_PWD,
-        },
-      });
-
-      const mailOptions = {
-        from: process.env.SMTP_FROM_EMAIL,
+      const email = {
+        from: "noreply@wilswork.ml",
         to: userFound.email,
         subject: "Password reset link, Wilswork",
         html:
@@ -484,7 +457,7 @@ exports.sendResetPasswordLink = async (req, res) => {
           "Team wilswork<br>www.wilswork.ml",
       };
 
-      await transporter.sendMail(mailOptions, (emailError, info) => {
+      await clientMailer.sendMail(email, (emailError, info) => {
         if (emailError) {
           return res.status(400).json({
             error: emailError,

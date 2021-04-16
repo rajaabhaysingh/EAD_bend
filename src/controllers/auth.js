@@ -84,7 +84,7 @@ exports.signup = async (req, res) => {
                       tempVerifCode: tempToken,
                       codeExpTime: moment(new Date()).add(10, "m").toDate(),
                       active: true,
-                      emailVerified: true,
+                      emailVerified: false,
                       phoneVerified: false,
                       skills: [],
                     },

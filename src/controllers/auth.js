@@ -100,9 +100,9 @@ exports.signup = async (req, res) => {
                   if (createdUser) {
                     // send OTP for vefification
                     let transporter = nodemailer.createTransport({
-                      host: "smtp.gmail.com",
-                      port: 465,
-                      secure: true,
+                      host: process.env.SMTP_EMAIL_HOST,
+                      port: process.env.SMTP_EMAIL_PORT,
+                      secure: false,
                       service: "Gmail",
 
                       auth: {

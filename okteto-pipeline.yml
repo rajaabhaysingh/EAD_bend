@@ -1,2 +1,2 @@
 deploy:
-  - okteto build -t okteto.dev/wilswork-bend:${OKTETO_GIT_COMMIT} wilswork-bend
+  - okteto build -t okteto.dev/:${OKTETO_GIT_COMMIT} wilswork-bend

@@ -118,6 +118,7 @@ dist
 # content upload directories
 src/profile_pic/
 src/uploads/
+src/files/
 
 ngrok
 .env

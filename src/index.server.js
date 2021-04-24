@@ -5,6 +5,7 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
+const router = express.Router();
 
 // managing routes
 const authRoutes = require("./routes/auth");
@@ -36,6 +37,13 @@ app.use("/application", applicationRoute);
 app.use("/payment", paymentRoute);
 app.use("/banner", bannerRoute);
 app.use("/review", reviewRoute);
+
+// just hend hellp from root
+router.get("/", (req, res) => {
+  return res.status(200).json({
+    data: "Hello from wilswork backend team.",
+  });
+});
 
 // connecting mongoose-online database
 mongoose

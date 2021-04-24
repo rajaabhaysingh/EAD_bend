@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wilswork-bend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wilswork-bend
+  template:
+    metadata:
+      labels:
+        app: wilswork-bend
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - image: okteto/wilswork-bend:latest
+          name: wilswork-bend

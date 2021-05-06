@@ -17,6 +17,8 @@ const applicationRoute = require("./routes/application");
 const paymentRoute = require("./routes/payment");
 const bannerRoute = require("./routes/banners");
 const reviewRoute = require("./routes/review");
+const conversationRoute = require("./routes/conversation");
+const messageRoute = require("./routes/message");
 
 env.config();
 
@@ -37,6 +39,8 @@ app.use("/application", applicationRoute);
 app.use("/payment", paymentRoute);
 app.use("/banner", bannerRoute);
 app.use("/review", reviewRoute);
+app.use("/conversation", conversationRoute);
+app.use("/message", messageRoute);
 
 // just hend hellp from root
 router.get("/", (req, res) => {

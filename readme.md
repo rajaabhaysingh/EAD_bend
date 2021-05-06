@@ -55,12 +55,9 @@
 34. `http://localhost:8000/application/change-status`
 35. `http://localhost:8000/application/get-by-id/:appId`
 36. `http://localhost:8000/job/get-jobs-by-filter`
+37. `http://localhost:8000/conversation/start-conversation`
+38. `http://localhost:8000/conversation/get`
+39. `http://localhost:8000/message/new`
+40. `http://localhost:8000/mesage/:conversationId`
 
 ---
-
-### Contributors
-
-1. Raja Abhay Singh (S20180010143)
-
----
-

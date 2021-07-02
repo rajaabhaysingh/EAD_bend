@@ -1,2 +1,0 @@
-deploy:
-  - okteto build -t okteto.dev/wilswork-bend:${OKTETO_GIT_COMMIT} .
